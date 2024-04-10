@@ -50,6 +50,7 @@ if (!builder.Environment.IsDevelopment())
     builder.Services.AddApplicationInsightsKubernetesEnricher();
 }
 
+builder.Services.AddScoped<RentingDbContext>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
