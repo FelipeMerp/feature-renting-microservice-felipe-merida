@@ -9,9 +9,6 @@ namespace GtMotive.Estimate.Microservice.Infrastructure
     /// </summary>
     public class RentingDbContext
     {
-        private static readonly object _lock = new();
-        private static RentingDbContext _instance;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RentingDbContext"/> class.
         /// Constructor.
@@ -26,26 +23,12 @@ namespace GtMotive.Estimate.Microservice.Infrastructure
         }
 
         /// <summary>
-        /// Gets the singleton instance of RentingDbContext.
-        /// </summary>
-        public static RentingDbContext Instance
-        {
-            get
-            {
-                lock (_lock)
-                {
-                    return _instance ??= new RentingDbContext();
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets vehicles.
         /// </summary>
         public Collection<Vehicle> Vehicles { get; }
 
         /// <summary>
-        /// Gets vehicles.
+        /// Gets rentals.
         /// </summary>
         public Collection<Rental> Rentals { get; }
 
@@ -77,7 +60,7 @@ namespace GtMotive.Estimate.Microservice.Infrastructure
             Rentals.Add(new Rental { Id = 2, VehicleId = 8, RenterId = 2, RentalDate = DateTime.UtcNow.AddDays(-3), ReturnDate = null });
 
             // Add two rentals that have already been returned
-            Rentals.Add(new Rental { Id = 3, VehicleId = 8, RenterId = 1, RentalDate = DateTime.UtcNow.AddDays(-3), ReturnDate = DateTime.UtcNow.AddHours(-1) });
+            Rentals.Add(new Rental { Id = 3, VehicleId = 6, RenterId = 1, RentalDate = DateTime.UtcNow.AddDays(-3), ReturnDate = DateTime.UtcNow.AddHours(-1) });
             Rentals.Add(new Rental { Id = 4, VehicleId = 8, RenterId = 2, RentalDate = DateTime.UtcNow.AddDays(-3), ReturnDate = DateTime.UtcNow.AddHours(-2) });
         }
     }

@@ -16,13 +16,13 @@ namespace GtMotive.Estimate.Microservice.Domain.Models
         /// <summary>
         /// Gets or sets identifier of the vehicle associated with the rental.
         /// </summary>
-        [Required(ErrorMessage = "Vehicle Id is required for rental.")]
+        [Required(ErrorMessage = "vehicleId is required for rental.")]
         public int VehicleId { get; set; }
 
         /// <summary>
         /// Gets or sets identifier of the renter (customer) who rented the vehicle.
         /// </summary>
-        [Required(ErrorMessage = "Renter Id is required for rental.")]
+        [Required(ErrorMessage = "renterId is required for rental.")]
         public int RenterId { get; set; }
 
         /// <summary>

@@ -7,29 +7,44 @@ using Microsoft.Extensions.Hosting;
 
 namespace GtMotive.Estimate.Microservice.Host
 {
-    // Startup class that configures the ASP.NET Core application.
+    /// <summary>
+    /// Startup class that configures the ASP.NET Core application.
+    /// </summary>
     public class Startup
     {
-        // Constructor that receives the application configuration.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// Constructor that receives the application configuration.
+        /// </summary>
+        /// <param name="configuration">The application configuration.</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        // Property to store the application configuration.
+        /// <summary>
+        /// Gets property to store the application configuration.
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // Method to configure the application services.
+        /// <summary>
+        /// Method to configure the application services.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
         public void ConfigureServices(IServiceCollection services)
         {
             // Add application controllers
             services.AddControllers();
 
             // Register RentingDbContext as a service
-            services.AddScoped<RentingDbContext>();
+            services.AddSingleton<RentingDbContext>();
         }
 
-        // Method to configure the application and its middleware.
+        /// <summary>
+        /// Method to configure the application and its middleware.
+        /// </summary>
+        /// <param name="app">The application builder.</param>
+        /// <param name="env">The web host environment.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Enable the development error page if the application is in development mode.
