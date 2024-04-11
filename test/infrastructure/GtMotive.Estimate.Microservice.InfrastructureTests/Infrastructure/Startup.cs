@@ -2,6 +2,7 @@
 using Acheve.AspNetCore.TestHost.Security;
 using Acheve.TestHost;
 using GtMotive.Estimate.Microservice.Api;
+using GtMotive.Estimate.Microservice.Api.UseCases;
 using GtMotive.Estimate.Microservice.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -53,6 +54,11 @@ namespace GtMotive.Estimate.Microservice.InfrastructureTests.Infrastructure
 
             // Register RentingDbContext as a service
             services.AddSingleton<RentingDbContext>();
+            services.AddScoped<CreateVehicleUseCase>();
+            services.AddScoped<GetAvailableVehiclesUseCase>();
+            services.AddScoped<GetVehicleUseCase>();
+            services.AddScoped<RentVehicleUseCase>();
+            services.AddScoped<ReturnVehicleUseCase>();
         }
     }
 }

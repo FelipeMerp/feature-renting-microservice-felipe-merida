@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
 using GtMotive.Estimate.Microservice.Api.Controllers;
+using GtMotive.Estimate.Microservice.Api.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
 using GtMotive.Estimate.Microservice.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -33,14 +34,14 @@ namespace GtMotive.Estimate.Microservice.FunctionalTests.Controllers
         {
             // Arrange
             _dbContext.Rentals.Clear();
-            var controller = new RentalsController(_dbContext);
+            var controller = new RentalsController(new RentVehicleUseCase(_dbContext), new ReturnVehicleUseCase(_dbContext));
 
             var renterId = 1;
             var vehicleId = 1;
             var jsonRenterId = JsonSerializer.SerializeToElement(new { renterId = "1" });
 
             // Act
-            var responseRentVehicle = await controller.RentVehicle(vehicleId, jsonRenterId);
+            var responseRentVehicle = controller.RentVehicle(vehicleId, jsonRenterId);
             var rentalBefore = (responseRentVehicle.Result as OkObjectResult).Value as Rental;
 
             var responseReturnVehicle = await controller.ReturnVehicle(renterId);

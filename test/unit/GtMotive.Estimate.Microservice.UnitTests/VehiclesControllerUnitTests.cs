@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GtMotive.Estimate.Microservice.Api.Controllers;
+using GtMotive.Estimate.Microservice.Api.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
 using GtMotive.Estimate.Microservice.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace GtMotive.Estimate.Microservice.UnitTests
         {
             // Arrange
             var dbContextMock = new Mock<RentingDbContext>(); // Mocking the database context
-            var controller = new VehiclesController(dbContextMock.Object); // Creating controller with mock context
+            var controller = new VehiclesController(new CreateVehicleUseCase(dbContextMock.Object), new GetAvailableVehiclesUseCase(dbContextMock.Object), new GetVehicleUseCase(dbContextMock.Object)); // Creating controller with mock context
 
             // Mocking the Vehicles and Rentals collections
             dbContextMock.Object.Vehicles.Clear();

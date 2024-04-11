@@ -1,4 +1,5 @@
-﻿using GtMotive.Estimate.Microservice.Infrastructure;
+﻿using GtMotive.Estimate.Microservice.Api.UseCases;
+using GtMotive.Estimate.Microservice.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -38,6 +39,11 @@ namespace GtMotive.Estimate.Microservice.Host
 
             // Register RentingDbContext as a service
             services.AddSingleton<RentingDbContext>();
+            services.AddScoped<CreateVehicleUseCase>();
+            services.AddScoped<GetAvailableVehiclesUseCase>();
+            services.AddScoped<GetVehicleUseCase>();
+            services.AddScoped<RentVehicleUseCase>();
+            services.AddScoped<ReturnVehicleUseCase>();
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using GtMotive.Estimate.Microservice.Api;
+using GtMotive.Estimate.Microservice.Api.UseCases;
 using GtMotive.Estimate.Microservice.Host.Configuration;
 using GtMotive.Estimate.Microservice.Host.DependencyInjection;
 using GtMotive.Estimate.Microservice.Infrastructure;
@@ -51,6 +52,11 @@ if (!builder.Environment.IsDevelopment())
 }
 
 builder.Services.AddSingleton<RentingDbContext>();
+builder.Services.AddScoped<CreateVehicleUseCase>();
+builder.Services.AddScoped<GetAvailableVehiclesUseCase>();
+builder.Services.AddScoped<GetVehicleUseCase>();
+builder.Services.AddScoped<RentVehicleUseCase>();
+builder.Services.AddScoped<ReturnVehicleUseCase>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
