@@ -50,6 +50,9 @@ namespace GtMotive.Estimate.Microservice.InfrastructureTests.Infrastructure
                 .WithApiControllers();
 
             services.AddBaseInfrastructure(true);
+
+            // Register RentingDbContext as a service
+            services.AddSingleton<RentingDbContext>();
         }
     }
 }
