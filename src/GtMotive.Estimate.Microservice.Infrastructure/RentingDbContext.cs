@@ -49,7 +49,7 @@ namespace GtMotive.Estimate.Microservice.Infrastructure
                     Id = i + 1,
                     Brand = brands[i],
                     Model = models[i],
-                    ManufacturingDate = DateTime.UtcNow.AddYears(-(i % 5)).AddDays(i % 5).AddMonths(i).AddHours(i).AddMinutes(i % 5).AddSeconds(i) // Random manufacturing date
+                    ManufacturingDate = DateTime.UtcNow.AddYears(-((i % 4) + 1)) // Random manufacturing date
                 };
 
                 Vehicles.Add(vehicle);
