@@ -1,0 +1,25 @@
+Relación entre modelos en la base de datos:
+
+En la base de datos, la relación entre el modelo de vehículo y el identificador del vehículo en la tabla de alquileres se establece mediante los siguientes campos:
+
+
+Tabla de Vehículos (Vehicle):
+
+    Campo: Id (int) - Identificador único del vehículo.
+    Campo: Brand (cadena) - Marca del vehículo.
+    Campo: Model (cadena) - Modelo del vehículo.
+    Campo: ManufacturingDate (DateTime) - Fecha de fabricación del vehículo.
+
+
+Tabla de Alquileres (Rental):
+
+    Campo: Id (int) - Identificador único del alquiler.
+    Campo: VehicleId (int) - Identificador del vehículo asociado con el alquiler. (Foráneo a Vehicle.Id)
+    Campo: RenterId (int) - Identificador del arrendatario (cliente) que alquiló el vehículo.
+    Campo: RentalDate (DateTime) - Fecha en que se realizó el alquiler del vehículo.
+    Campo: ReturnDate (DateTime?) - Fecha en que se devolvió el vehículo (puede ser nulo si aún no se ha devuelto).
+
+
+En la tabla de Alquileres, el campo VehicleId actúa como una clave foránea que hace referencia al campo Id de la tabla de Vehículos, 
+estableciendo así una relación entre las dos tablas. Esta relación garantiza la integridad referencial, lo que significa que cada 
+registro en la tabla de Alquileres debe hacer referencia a un registro existente en la tabla de Vehículos.

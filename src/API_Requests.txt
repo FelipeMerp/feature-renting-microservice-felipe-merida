@@ -1,0 +1,66 @@
+API Requests - Estructura Hexagonal - PRUEBA TÉCNICA .NET
+
+En esta guía, se detallan las distintas peticiones que se pueden realizar a través de la API.
+
+
+Vehicles Controller:
+
+    GET /api/Vehicles/availableVehicles
+
+        Descripción: Esta solicitud devuelve todos los vehículos disponibles para alquilar.
+        Método: GET
+        Endpoint: https://localhost:44366/api/Vehicles/availableVehicles
+
+
+    GET /api/Vehicles/getVehicleById/{id}
+
+        Descripción: Devuelve información detallada de un vehículo específico identificado por su ID.
+        Método: GET
+        Endpoint: https://localhost:44366/api/Vehicles/getVehicleById/1
+        Parámetros de ruta: {id} - El ID único del vehículo.
+    
+
+    POST /api/Vehicles/createVehicle
+
+        Descripción: Crea un nuevo vehículo en la base de datos.
+        Método: POST
+        Endpoint: https://localhost:44366/api/Vehicles/createVehicle
+        Cuerpo de la solicitud (raw) (JSON):
+        json
+        Copy code
+        {
+          "brand": "Toyota",
+          "model": "Corolla",
+          "manufacturingDate": "2022-01-01T00:00:00"
+        }
+        Parámetros:
+        "brand" (cadena): La marca del vehículo.
+        "model" (cadena): El modelo del vehículo.
+        "manufacturingDate" (cadena de fecha y hora): La fecha de fabricación del vehículo.
+
+
+
+Rentals Controller:
+
+    POST /api/Rentals/rentVehicle/{vehicleId}
+
+        Descripción: Alquila un vehículo específico para un arrendatario identificado.
+        Método: POST
+        Endpoint: https://localhost:44366/api/Rentals/rentVehicle/1
+        Parámetros de ruta: {vehicleId} - El ID único del vehículo a alquilar.
+        Cuerpo de la solicitud (raw) (JSON):
+        json
+        Copy code
+        {
+          "renterId": "1"
+        }
+        Parámetros:
+        "renterId" (cadena): El ID del arrendatario que alquila el vehículo.
+
+
+    PUT /api/Rentals/returnVehicle/{vehicleId}
+
+        Descripción: Marca un vehículo específico como devuelto, finalizando el período de alquiler.
+        Método: PUT
+        Endpoint: https://localhost:44366/api/Rentals/returnVehicle/1
+        Parámetros de ruta: {vehicleId} - El ID único del vehículo devuelto.
