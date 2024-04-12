@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+using GtMotive.Estimate.Microservice.ApplicationCore.Exceptions;
 using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -37,9 +37,17 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         /// <param name="vehicle">The vehicle object to be created.</param>
         /// <returns>The result of the vehicle creation operation.</returns>
         [HttpPost("createVehicle")]
-        public Task<ActionResult<string>> CreateVehicle([FromBody] Vehicle vehicle)
+        public ActionResult<string> CreateVehicle([FromBody] Vehicle vehicle)
         {
-            return _createVehicleUseCase.Execute(vehicle);
+            try
+            {
+                var result = _createVehicleUseCase.Execute(vehicle);
+                return Ok(result);
+            }
+            catch (RentalServiceException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         /// <summary>
@@ -47,9 +55,17 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         /// </summary>
         /// <returns>The result containing the list of available vehicles.</returns>
         [HttpGet("availableVehicles")]
-        public Task<ActionResult<IEnumerable<Vehicle>>> GetAvailableVehicles()
+        public ActionResult<IEnumerable<Vehicle>> GetAvailableVehicles()
         {
-            return _getAvailableVehiclesUseCase.Execute();
+            try
+            {
+                var result = _getAvailableVehiclesUseCase.Execute();
+                return Ok(result);
+            }
+            catch (RentalServiceException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         /// <summary>
@@ -60,7 +76,15 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         [HttpGet("getVehicleById/{id}")]
         public ActionResult<string> GetVehicle(int id)
         {
-            return _getVehicleUseCase.Execute(id);
+            try
+            {
+                var result = _getVehicleUseCase.Execute(id);
+                return Ok(result);
+            }
+            catch (RentalServiceException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Threading.Tasks;
 using GtMotive.Estimate.Microservice.Api.Controllers;
 using GtMotive.Estimate.Microservice.Api.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
@@ -25,9 +24,8 @@ namespace GtMotive.Estimate.Microservice.FunctionalTests.Controllers
         /// <summary>
         /// Tests the ReturnVehicle method of the RentalsController class.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous functional test.</returns>
         [Fact]
-        public async Task ReturnVehicleReturnsOkWhenSuccessful()
+        public void ReturnVehicleReturnsOkWhenSuccessful()
         {
             // Arrange
             var dbContext = new RentingDbContext();
@@ -46,7 +44,7 @@ namespace GtMotive.Estimate.Microservice.FunctionalTests.Controllers
             var responseRentVehicle = controller.RentVehicle(vehicleId, jsonRenterId);
             var rentalBefore = (responseRentVehicle.Result as OkObjectResult).Value as Rental;
 
-            var responseReturnVehicle = await controller.ReturnVehicle(renterId);
+            var responseReturnVehicle = controller.ReturnVehicle(renterId);
             var rentalAfter = (responseReturnVehicle.Result as OkObjectResult).Value as Rental;
 
             // Assert

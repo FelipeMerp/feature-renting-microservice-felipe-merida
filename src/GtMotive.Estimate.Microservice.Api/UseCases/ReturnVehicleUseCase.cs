@@ -2,11 +2,10 @@
 
 using System;
 using System.Linq;
-using System.Threading.Tasks;
+using GtMotive.Estimate.Microservice.ApplicationCore.Exceptions;
 using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
 using GtMotive.Estimate.Microservice.Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 
 namespace GtMotive.Estimate.Microservice.Api.UseCases
 {
@@ -32,14 +31,10 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases
         /// </summary>
         /// <param name="renterId">The ID of the renter returning the vehicle.</param>
         /// <returns>The result of the return operation.</returns>
-        public Task<ActionResult<Rental>> ExecuteAsync(int renterId)
+        public Rental Execute(int renterId)
         {
             // Find the rental in the database.
-            var rental = _dbContext.Rentals.FirstOrDefault(r => r.RenterId == renterId && r.ReturnDate == null);
-            if (rental == null)
-            {
-                return Task.FromResult<ActionResult<Rental>>(new NotFoundObjectResult(new { message = "Rental not found." }));
-            }
+            var rental = _dbContext.Rentals.FirstOrDefault(r => r.RenterId == renterId && r.ReturnDate == null) ?? throw new RentalServiceException("Rental not found.");
 
             // With a real database only ReturnDate would be updated.
             _dbContext.Rentals.Remove(rental);
@@ -49,7 +44,7 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases
 
             _dbContext.Rentals.Add(rental);
 
-            return Task.FromResult<ActionResult<Rental>>(new OkObjectResult(rental));
+            return rental;
         }
     }
 }

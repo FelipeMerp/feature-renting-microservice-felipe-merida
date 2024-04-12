@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GtMotive.Estimate.Microservice.Domain.Models;
 
 namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases
 {
@@ -12,6 +12,6 @@ namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases
         /// </summary>
         /// <param name="id">The ID of the vehicle to retrieve.</param>
         /// <returns>The result containing the retrieved vehicle.</returns>
-        ActionResult<string> Execute(int id);
+        Vehicle Execute(int id);
     }
 }

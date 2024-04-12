@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using System.Threading.Tasks;
+using GtMotive.Estimate.Microservice.ApplicationCore.Exceptions;
 using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +37,15 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         [HttpPost("rentVehicle/{vehicleId}")]
         public ActionResult<Rental> RentVehicle(int vehicleId, [FromBody] JsonElement jsonRenterId)
         {
-            return _rentVehicleUseCase.Execute(vehicleId, jsonRenterId);
+            try
+            {
+                var result = _rentVehicleUseCase.Execute(vehicleId, jsonRenterId);
+                return Ok(result);
+            }
+            catch (RentalServiceException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         /// <summary>
@@ -46,9 +54,17 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         /// <param name="renterId">The ID of the renter returning the vehicle.</param>
         /// <returns>The result of the return operation.</returns>
         [HttpPut("returnVehicle/{renterId}")]
-        public Task<ActionResult<Rental>> ReturnVehicle(int renterId)
+        public ActionResult<Rental> ReturnVehicle(int renterId)
         {
-            return _returnVehicleUseCase.ExecuteAsync(renterId);
+            try
+            {
+                var result = _returnVehicleUseCase.Execute(renterId);
+                return Ok(result);
+            }
+            catch (RentalServiceException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

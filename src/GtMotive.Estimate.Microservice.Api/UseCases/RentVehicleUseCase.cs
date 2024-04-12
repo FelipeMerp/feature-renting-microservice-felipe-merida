@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Text.Json;
+using GtMotive.Estimate.Microservice.ApplicationCore.Exceptions;
 using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
 using GtMotive.Estimate.Microservice.Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 
 namespace GtMotive.Estimate.Microservice.Api.UseCases
 {
@@ -31,7 +31,7 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases
         /// <param name="vehicleId">The ID of the vehicle to be rented.</param>
         /// <param name="jsonRenterId">The JSON element containing the renter ID.</param>
         /// <returns>The result of the rental operation.</returns>
-        public ActionResult<Rental> Execute(int vehicleId, JsonElement jsonRenterId)
+        public Rental Execute(int vehicleId, JsonElement jsonRenterId)
         {
             // Check if the vehicle is available for rental.
             var isVehicleAvailable = !_dbContext.Rentals.Any(r => r.VehicleId == vehicleId && r.ReturnDate == null)
@@ -39,7 +39,7 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases
 
             if (!isVehicleAvailable)
             {
-                return new BadRequestObjectResult(new { message = "The vehicle is not available for rental." });
+                throw new RentalServiceException("The vehicle is not available for rental.");
             }
 
             var renterId = 0;
@@ -48,18 +48,18 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases
             {
                 if (!int.TryParse(elementRenterId.GetString(), out renterId))
                 {
-                    return new BadRequestObjectResult(new { message = "Invalid renterId format." });
+                    throw new RentalServiceException("Invalid renterId format.");
                 }
             }
             else
             {
-                return new BadRequestObjectResult(new { message = "renterId not provided." });
+                throw new RentalServiceException("renterId not provided.");
             }
 
             // Check if the user already has a rented vehicle.
             if (_dbContext.Rentals.Any(r => r.RenterId == renterId && r.ReturnDate == null))
             {
-                return new BadRequestObjectResult(new { message = "The user already has a rented vehicle." });
+                throw new RentalServiceException("The user already has a rented vehicle.");
             }
 
             // Create a new instance of Rental and assign values.
@@ -75,7 +75,7 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases
             // Save the new rental to the database.
             _dbContext.Rentals.Add(rental);
 
-            return new OkObjectResult(rental);
+            return rental;
         }
     }
 }

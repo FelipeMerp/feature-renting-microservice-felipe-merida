@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using GtMotive.Estimate.Microservice.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases
 {
@@ -15,6 +14,6 @@ namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases
         /// <param name="vehicleId">The ID of the vehicle to be rented.</param>
         /// <param name="jsonRenterId">The JSON element containing the renter ID.</param>
         /// <returns>The result of the rental operation.</returns>
-        ActionResult<Rental> Execute(int vehicleId, JsonElement jsonRenterId);
+        Rental Execute(int vehicleId, JsonElement jsonRenterId);
     }
 }

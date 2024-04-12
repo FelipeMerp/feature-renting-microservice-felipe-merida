@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
+using GtMotive.Estimate.Microservice.ApplicationCore.Exceptions;
 using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
+using GtMotive.Estimate.Microservice.Domain.Models;
 using GtMotive.Estimate.Microservice.Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 
 namespace GtMotive.Estimate.Microservice.Api.UseCases
 {
@@ -29,19 +30,13 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases
         /// </summary>
         /// <param name="id">The ID of the vehicle to retrieve.</param>
         /// <returns>The result containing the retrieved vehicle.</returns>
-        public ActionResult<string> Execute(int id)
+        public Vehicle Execute(int id)
         {
             // Find the vehicle in the database by its ID.
-            var vehicle = _dbContext.Vehicles.FirstOrDefault(v => v.Id == id && v.ManufacturingDate > DateTime.UtcNow.AddYears(-5));
+            var vehicle = _dbContext.Vehicles.FirstOrDefault(v => v.Id == id && v.ManufacturingDate > DateTime.UtcNow.AddYears(-5)) ?? throw new RentalServiceException("Vehicle not found.");
 
-            // If the vehicle is not found, return HTTP 404 (Not Found) response.
-            if (vehicle == null)
-            {
-                return new ActionResult<string>(new NotFoundObjectResult(new { message = "Vehicle not found." }));
-            }
-
-            // If the vehicle is found, return HTTP 200 (OK) response with the vehicle.
-            return new OkObjectResult(vehicle);
+            // If the vehicle is found, return the vehicle.
+            return vehicle;
         }
     }
 }

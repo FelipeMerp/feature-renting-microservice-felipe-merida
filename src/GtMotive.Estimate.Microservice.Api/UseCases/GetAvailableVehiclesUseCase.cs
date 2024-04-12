@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using GtMotive.Estimate.Microservice.ApplicationCore.Exceptions;
 using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
 using GtMotive.Estimate.Microservice.Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 
 namespace GtMotive.Estimate.Microservice.Api.UseCases
 {
@@ -30,7 +29,7 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases
         /// Executes the retrieval of all available vehicles.
         /// </summary>
         /// <returns>The result containing the list of available vehicles.</returns>
-        public Task<ActionResult<IEnumerable<Vehicle>>> Execute()
+        public IEnumerable<Vehicle> Execute()
         {
             // Query the database to get all vehicles that are not currently rented.
             var availableVehicles = _dbContext.Vehicles
@@ -39,8 +38,13 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases
             // Prevent displaying vehicles that are more than 5 years old since their manufacturing date in the fleet.
             availableVehicles = availableVehicles.Where(v => v.ManufacturingDate > DateTime.UtcNow.AddYears(-5)).ToList().AsEnumerable();
 
+            if (!availableVehicles.Any())
+            {
+                throw new RentalServiceException("No vehicles are available.");
+            }
+
             // Return HTTP 200 (OK) response with the list of available vehicles.
-            return Task.FromResult<ActionResult<IEnumerable<Vehicle>>>(new OkObjectResult(availableVehicles));
+            return availableVehicles;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using GtMotive.Estimate.Microservice.Api.Controllers;
 using GtMotive.Estimate.Microservice.Api.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
@@ -19,9 +18,8 @@ namespace GtMotive.Estimate.Microservice.UnitTests
         /// <summary>
         /// Tests the GetAvailableVehicles method of the VehiclesController class.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task GetAvailableVehiclesReturnsOkWithListOfAvailableVehicles()
+        public void GetAvailableVehiclesReturnsOkWithListOfAvailableVehicles()
         {
             // Arrange
             var dbContextMock = new Mock<RentingDbContext>(); // Mocking the database context
@@ -43,7 +41,7 @@ namespace GtMotive.Estimate.Microservice.UnitTests
             var controller = new VehiclesController(createVehicleUseCaseMock.Object, getAvailableVehiclesUseCaseMock.Object, getVehicleUseCaseMock.Object);
 
             // Act
-            var result = await controller.GetAvailableVehicles();
+            var result = controller.GetAvailableVehicles();
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result); // Expects Ok response

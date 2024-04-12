@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using GtMotive.Estimate.Microservice.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using GtMotive.Estimate.Microservice.Domain.Models;
 
 namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases
 {
@@ -14,6 +12,6 @@ namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases
         /// </summary>
         /// <param name="renterId">The ID of the renter returning the vehicle.</param>
         /// <returns>The result of the return operation.</returns>
-        Task<ActionResult<Rental>> ExecuteAsync(int renterId);
+        Rental Execute(int renterId);
     }
 }
