@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using GtMotive.Estimate.Microservice.Api.UseCases;
+using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,18 +13,18 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
     [Route("api/[controller]")]
     public class VehiclesController : ControllerBase
     {
-        private readonly CreateVehicleUseCase _createVehicleUseCase;
-        private readonly GetAvailableVehiclesUseCase _getAvailableVehiclesUseCase;
-        private readonly GetVehicleUseCase _getVehicleUseCase;
+        private readonly ICreateVehicleUseCase _createVehicleUseCase;
+        private readonly IGetAvailableVehiclesUseCase _getAvailableVehiclesUseCase;
+        private readonly IGetVehicleUseCase _getVehicleUseCase;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VehiclesController"/> class.
-        /// Constructor of the controller.
+        /// Constructor for the VehiclesController class.
         /// </summary>
-        /// <param name="createVehicleUseCase">An instance of <see cref="CreateVehicleUseCase"/> containing the logic for creating vehicles.</param>
-        /// <param name="getAvailableVehiclesUseCase">An instance of <see cref="GetAvailableVehiclesUseCase"/> containing the logic for retrieving available vehicles.</param>
-        /// <param name="getVehicleUseCase">An instance of <see cref="GetVehicleUseCase"/> containing the logic for retrieving a specific vehicle.</param>
-        public VehiclesController(CreateVehicleUseCase createVehicleUseCase, GetAvailableVehiclesUseCase getAvailableVehiclesUseCase, GetVehicleUseCase getVehicleUseCase)
+        /// <param name="createVehicleUseCase">An instance of the create vehicle use case.</param>
+        /// <param name="getAvailableVehiclesUseCase">An instance of the get available vehicles use case.</param>
+        /// <param name="getVehicleUseCase">An instance of the get vehicle use case.</param>
+        public VehiclesController(ICreateVehicleUseCase createVehicleUseCase, IGetAvailableVehiclesUseCase getAvailableVehiclesUseCase, IGetVehicleUseCase getVehicleUseCase)
         {
             _createVehicleUseCase = createVehicleUseCase;
             _getAvailableVehiclesUseCase = getAvailableVehiclesUseCase;

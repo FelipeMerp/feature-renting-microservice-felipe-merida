@@ -5,9 +5,11 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using GtMotive.Estimate.Microservice.Api;
 using GtMotive.Estimate.Microservice.Api.UseCases;
+using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
 using GtMotive.Estimate.Microservice.Host.Configuration;
 using GtMotive.Estimate.Microservice.Host.DependencyInjection;
 using GtMotive.Estimate.Microservice.Infrastructure;
+using GtMotive.Estimate.Microservice.Infrastructure.Interfaces;
 using GtMotive.Estimate.Microservice.Infrastructure.MongoDb.Settings;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -52,11 +54,12 @@ if (!builder.Environment.IsDevelopment())
 }
 
 builder.Services.AddSingleton<RentingDbContext>();
-builder.Services.AddScoped<CreateVehicleUseCase>();
-builder.Services.AddScoped<GetAvailableVehiclesUseCase>();
-builder.Services.AddScoped<GetVehicleUseCase>();
-builder.Services.AddScoped<RentVehicleUseCase>();
-builder.Services.AddScoped<ReturnVehicleUseCase>();
+builder.Services.AddSingleton<IRentingDbContext, RentingDbContext>();
+builder.Services.AddScoped<ICreateVehicleUseCase, CreateVehicleUseCase>();
+builder.Services.AddScoped<IGetAvailableVehiclesUseCase, GetAvailableVehiclesUseCase>();
+builder.Services.AddScoped<IGetVehicleUseCase, GetVehicleUseCase>();
+builder.Services.AddScoped<IRentVehicleUseCase, RentVehicleUseCase>();
+builder.Services.AddScoped<IReturnVehicleUseCase, ReturnVehicleUseCase>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

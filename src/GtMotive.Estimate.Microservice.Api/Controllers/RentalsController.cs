@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using System.Threading.Tasks;
-using GtMotive.Estimate.Microservice.Api.UseCases;
+using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,16 +13,16 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
     [Route("api/[controller]")]
     public class RentalsController : ControllerBase
     {
-        private readonly RentVehicleUseCase _rentVehicleUseCase;
-        private readonly ReturnVehicleUseCase _returnVehicleUseCase;
+        private readonly IRentVehicleUseCase _rentVehicleUseCase;
+        private readonly IReturnVehicleUseCase _returnVehicleUseCase;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RentalsController"/> class.
-        /// Constructor of the controller.
+        /// Constructor for the RentalsController class.
         /// </summary>
-        /// <param name="rentVehicleUseCase">An instance of <see cref="RentVehicleUseCase"/> containing the logic for renting vehicles.</param>
-        /// <param name="returnVehicleUseCase">An instance of <see cref="ReturnVehicleUseCase"/> containing the logic for returning vehicles.</param>
-        public RentalsController(RentVehicleUseCase rentVehicleUseCase, ReturnVehicleUseCase returnVehicleUseCase)
+        /// <param name="rentVehicleUseCase">An instance of the rent vehicle use case.</param>
+        /// <param name="returnVehicleUseCase">An instance of the return vehicle use case.</param>
+        public RentalsController(IRentVehicleUseCase rentVehicleUseCase, IReturnVehicleUseCase returnVehicleUseCase)
         {
             _rentVehicleUseCase = rentVehicleUseCase;
             _returnVehicleUseCase = returnVehicleUseCase;

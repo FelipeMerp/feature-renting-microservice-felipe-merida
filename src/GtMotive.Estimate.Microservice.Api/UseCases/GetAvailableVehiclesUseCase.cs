@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
 using GtMotive.Estimate.Microservice.Domain.Models;
-using GtMotive.Estimate.Microservice.Infrastructure;
+using GtMotive.Estimate.Microservice.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GtMotive.Estimate.Microservice.Api.UseCases
@@ -11,16 +12,16 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases
     /// <summary>
     /// Use case class responsible for obtaining the list of vehicles available for renting.
     /// </summary>
-    public class GetAvailableVehiclesUseCase
+    public class GetAvailableVehiclesUseCase : IGetAvailableVehiclesUseCase
     {
-        private readonly RentingDbContext _dbContext;
+        private readonly IRentingDbContext _dbContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetAvailableVehiclesUseCase"/> class.
         /// Use case class responsible for retrieving all available vehicles.
         /// </summary>
         /// <param name="dbContext">The database context for accessing vehicle data.</param>
-        public GetAvailableVehiclesUseCase(RentingDbContext dbContext)
+        public GetAvailableVehiclesUseCase(IRentingDbContext dbContext)
         {
             _dbContext = dbContext;
         }

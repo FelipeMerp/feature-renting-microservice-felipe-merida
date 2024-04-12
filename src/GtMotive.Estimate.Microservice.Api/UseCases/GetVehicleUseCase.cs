@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
-using GtMotive.Estimate.Microservice.Infrastructure;
+using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
+using GtMotive.Estimate.Microservice.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GtMotive.Estimate.Microservice.Api.UseCases
@@ -9,16 +10,16 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases
     /// Initializes a new instance of the <see cref="GetVehicleUseCase"/> class.
     /// Use case class responsible for retrieving a vehicle by its ID.
     /// </summary>
-    public class GetVehicleUseCase
+    public class GetVehicleUseCase : IGetVehicleUseCase
     {
-        private readonly RentingDbContext _dbContext;
+        private readonly IRentingDbContext _dbContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetVehicleUseCase"/> class.
         /// Constructor of the use case.
         /// </summary>
         /// <param name="dbContext">The database context for accessing vehicle data.</param>
-        public GetVehicleUseCase(RentingDbContext dbContext)
+        public GetVehicleUseCase(IRentingDbContext dbContext)
         {
             _dbContext = dbContext;
         }

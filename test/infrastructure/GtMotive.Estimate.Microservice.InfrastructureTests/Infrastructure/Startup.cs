@@ -3,7 +3,9 @@ using Acheve.AspNetCore.TestHost.Security;
 using Acheve.TestHost;
 using GtMotive.Estimate.Microservice.Api;
 using GtMotive.Estimate.Microservice.Api.UseCases;
+using GtMotive.Estimate.Microservice.ApplicationCore.UseCases;
 using GtMotive.Estimate.Microservice.Infrastructure;
+using GtMotive.Estimate.Microservice.Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -54,11 +56,12 @@ namespace GtMotive.Estimate.Microservice.InfrastructureTests.Infrastructure
 
             // Register RentingDbContext as a service
             services.AddSingleton<RentingDbContext>();
-            services.AddScoped<CreateVehicleUseCase>();
-            services.AddScoped<GetAvailableVehiclesUseCase>();
-            services.AddScoped<GetVehicleUseCase>();
-            services.AddScoped<RentVehicleUseCase>();
-            services.AddScoped<ReturnVehicleUseCase>();
+            services.AddSingleton<IRentingDbContext, RentingDbContext>();
+            services.AddScoped<ICreateVehicleUseCase, CreateVehicleUseCase>();
+            services.AddScoped<IGetAvailableVehiclesUseCase, GetAvailableVehiclesUseCase>();
+            services.AddScoped<IGetVehicleUseCase, GetVehicleUseCase>();
+            services.AddScoped<IRentVehicleUseCase, RentVehicleUseCase>();
+            services.AddScoped<IReturnVehicleUseCase, ReturnVehicleUseCase>();
         }
     }
 }

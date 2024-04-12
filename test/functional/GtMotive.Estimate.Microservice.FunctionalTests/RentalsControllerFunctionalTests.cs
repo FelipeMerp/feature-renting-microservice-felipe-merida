@@ -14,15 +14,12 @@ namespace GtMotive.Estimate.Microservice.FunctionalTests.Controllers
     /// </summary>
     public class RentalsControllerFunctionalTests
     {
-        private readonly RentingDbContext _dbContext;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RentalsControllerFunctionalTests"/> class.
         /// Constructor.
         /// </summary>
         public RentalsControllerFunctionalTests()
         {
-            _dbContext = new RentingDbContext();
         }
 
         /// <summary>
@@ -33,8 +30,13 @@ namespace GtMotive.Estimate.Microservice.FunctionalTests.Controllers
         public async Task ReturnVehicleReturnsOkWhenSuccessful()
         {
             // Arrange
-            _dbContext.Rentals.Clear();
-            var controller = new RentalsController(new RentVehicleUseCase(_dbContext), new ReturnVehicleUseCase(_dbContext));
+            var dbContext = new RentingDbContext();
+            dbContext.Rentals.Clear();
+
+            var rentVehicleUseCaseMock = new RentVehicleUseCase(dbContext);
+            var returnVehicleUseCaseMock = new ReturnVehicleUseCase(dbContext);
+
+            var controller = new RentalsController(rentVehicleUseCaseMock, returnVehicleUseCaseMock);
 
             var renterId = 1;
             var vehicleId = 1;

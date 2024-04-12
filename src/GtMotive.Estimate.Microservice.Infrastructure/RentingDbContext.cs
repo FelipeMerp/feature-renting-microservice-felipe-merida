@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using GtMotive.Estimate.Microservice.Domain.Models;
+using GtMotive.Estimate.Microservice.Infrastructure.Interfaces;
 
 namespace GtMotive.Estimate.Microservice.Infrastructure
 {
     /// <summary>
     /// Represents the database context for the application.
     /// </summary>
-    public class RentingDbContext
+    public class RentingDbContext : IRentingDbContext
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RentingDbContext"/> class.

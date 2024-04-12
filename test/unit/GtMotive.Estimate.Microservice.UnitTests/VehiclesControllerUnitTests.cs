@@ -25,7 +25,6 @@ namespace GtMotive.Estimate.Microservice.UnitTests
         {
             // Arrange
             var dbContextMock = new Mock<RentingDbContext>(); // Mocking the database context
-            var controller = new VehiclesController(new CreateVehicleUseCase(dbContextMock.Object), new GetAvailableVehiclesUseCase(dbContextMock.Object), new GetVehicleUseCase(dbContextMock.Object)); // Creating controller with mock context
 
             // Mocking the Vehicles and Rentals collections
             dbContextMock.Object.Vehicles.Clear();
@@ -36,6 +35,12 @@ namespace GtMotive.Estimate.Microservice.UnitTests
             dbContextMock.Object.Rentals.Clear();
             dbContextMock.Object.Rentals.Add(new Rental { Id = 1, VehicleId = 1, RentalDate = DateTime.UtcNow.AddDays(-2), ReturnDate = null }); // Rented
             dbContextMock.Object.Rentals.Add(new Rental { Id = 2, VehicleId = 3, RentalDate = DateTime.UtcNow.AddDays(-5), ReturnDate = DateTime.UtcNow.AddDays(-2) });
+
+            var createVehicleUseCaseMock = new Mock<CreateVehicleUseCase>(dbContextMock.Object);
+            var getAvailableVehiclesUseCaseMock = new Mock<GetAvailableVehiclesUseCase>(dbContextMock.Object);
+            var getVehicleUseCaseMock = new Mock<GetVehicleUseCase>(dbContextMock.Object);
+
+            var controller = new VehiclesController(createVehicleUseCaseMock.Object, getAvailableVehiclesUseCaseMock.Object, getVehicleUseCaseMock.Object);
 
             // Act
             var result = await controller.GetAvailableVehicles();
